@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import WelcomeSection from "./WelcomeSection";
 import StatsSection from "./StatsSection";
@@ -26,6 +26,11 @@ export default function App() {
 
     const taskCount = tasks.length;
     const completedCount = tasks.filter((task) => task.completed).length;
+
+    useEffect(() => {
+        document.title = `Completed ${completedCount} of ${taskCount} tasks`;
+        console.log("Task list updated:", tasks);
+    }, [tasks, completedCount, taskCount]);
 
     function completeTask() {
         const firstIncompleteTask = tasks.find((task) => !task.completed);
