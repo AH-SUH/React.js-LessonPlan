@@ -1,8 +1,8 @@
-export default function Header() {
+export default function Header({ title, message }) {
     return (
         <header>
-            <h1>Personal Dashboard</h1>
-            <p>This project will grow step by step as I learn React.</p>
+            <h1>{title}</h1>
+            <p>{message}</p>
         </header>
     );
 }

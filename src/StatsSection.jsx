@@ -1,11 +1,11 @@
-export default function StatsSection() {
+export default function StatsSection({ taskCount, completedCount, focus }) {
     return (
         <section>
             <h2>Quick Stats</h2>
             <ul>
-                <li>Tasks: 3</li>
-                <li>Completed: 1</li>
-                <li>Current Focus: React Basics</li>
+                <li>Tasks: {taskCount}</li>
+                <li>Completed: {completedCount}</li>
+                <li>Current Focus: {focus}</li>
             </ul>
         </section>
     );

@@ -1,11 +1,11 @@
-export default function TaskPreview() {
+export default function TaskPreview({ tasks }) {
     return (
         <section>
             <h2>Task Preview</h2>
             <ul>
-                <li>Finish React lesson review</li>
-                <li>Build dashboard layout</li>
-                <li>Prepare next commit</li>
+                {tasks.map((task, index) => (
+                    <li key={index}>{task}</li>
+                ))}
             </ul>
         </section>
     );
