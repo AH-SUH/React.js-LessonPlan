@@ -11,30 +11,43 @@ export default function App() {
         "This project will grow step by step as I learn React."
     );
 
-    const [taskCount, setTaskCount] = useState(3);
-    const [completedCount, setCompletedCount] = useState(1);
-    const [currentFocus] = useState("React Basics");
-
-    const [previewTasks, setPreviewTasks] = useState([
-        "Finish React lesson review",
-        "Build dashboard layout",
-        "Prepare next commit",
+    const [tasks, setTasks] = useState([
+        { id: 1, title: "Finish React lesson review", completed: true },
+        { id: 2, title: "Build dashboard layout", completed: false },
+        { id: 3, title: "Prepare next commit", completed: false },
     ]);
 
+    const [currentFocus] = useState("React Basics");
     const [newTask, setNewTask] = useState("");
 
     const [profileNote] = useState(
         "Learning React by building one project step by step instead of isolated exercises."
     );
 
+    const taskCount = tasks.length;
+    const completedCount = tasks.filter((task) => task.completed).length;
+
     function completeTask() {
-        if (completedCount < taskCount) {
-            setCompletedCount(completedCount + 1);
-        }
+        const firstIncompleteTask = tasks.find((task) => !task.completed);
+
+        if (!firstIncompleteTask) return;
+
+        const updatedTasks = tasks.map((task) =>
+            task.id === firstIncompleteTask.id
+                ? { ...task, completed: true }
+                : task
+        );
+
+        setTasks(updatedTasks);
     }
 
     function resetProgress() {
-        setCompletedCount(0);
+        const resetTasks = tasks.map((task) => ({
+            ...task,
+            completed: false,
+        }));
+
+        setTasks(resetTasks);
     }
 
     function handleTaskChange(event) {
@@ -48,9 +61,24 @@ export default function App() {
             return;
         }
 
-        setPreviewTasks([...previewTasks, newTask]);
-        setTaskCount(taskCount + 1);
+        const taskToAdd = {
+            id: Date.now(),
+            title: newTask,
+            completed: false,
+        };
+
+        setTasks([...tasks, taskToAdd]);
         setNewTask("");
+    }
+
+    function toggleTaskComplete(taskId) {
+        const updatedTasks = tasks.map((task) =>
+            task.id === taskId
+                ? { ...task, completed: !task.completed }
+                : task
+        );
+
+        setTasks(updatedTasks);
     }
 
     return (
@@ -85,7 +113,11 @@ export default function App() {
                     </form>
                 </section>
 
-                <TaskPreview tasks={previewTasks} />
+                <TaskPreview
+                    tasks={tasks}
+                    toggleTaskComplete={toggleTaskComplete}
+                />
+
                 <ProfileCard learningNote={profileNote} />
             </main>
         </div>
