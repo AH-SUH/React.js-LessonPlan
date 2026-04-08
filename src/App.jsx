@@ -11,15 +11,17 @@ export default function App() {
         "This project will grow step by step as I learn React."
     );
 
-    const [taskCount] = useState(3);
+    const [taskCount, setTaskCount] = useState(3);
     const [completedCount, setCompletedCount] = useState(1);
     const [currentFocus] = useState("React Basics");
 
-    const [previewTasks] = useState([
+    const [previewTasks, setPreviewTasks] = useState([
         "Finish React lesson review",
         "Build dashboard layout",
         "Prepare next commit",
     ]);
+
+    const [newTask, setNewTask] = useState("");
 
     const [profileNote] = useState(
         "Learning React by building one project step by step instead of isolated exercises."
@@ -33,6 +35,22 @@ export default function App() {
 
     function resetProgress() {
         setCompletedCount(0);
+    }
+
+    function handleTaskChange(event) {
+        setNewTask(event.target.value);
+    }
+
+    function addTask(event) {
+        event.preventDefault();
+
+        if (newTask.trim() === "") {
+            return;
+        }
+
+        setPreviewTasks([...previewTasks, newTask]);
+        setTaskCount(taskCount + 1);
+        setNewTask("");
     }
 
     return (
@@ -52,6 +70,19 @@ export default function App() {
                     <h2>Progress Controls</h2>
                     <button onClick={completeTask}>Complete a Task</button>
                     <button onClick={resetProgress}>Reset Progress</button>
+                </section>
+
+                <section>
+                    <h2>Add a New Task</h2>
+                    <form onSubmit={addTask}>
+                        <input
+                            type="text"
+                            value={newTask}
+                            onChange={handleTaskChange}
+                            placeholder="Enter a new task"
+                        />
+                        <button type="submit">Add Task</button>
+                    </form>
                 </section>
 
                 <TaskPreview tasks={previewTasks} />
