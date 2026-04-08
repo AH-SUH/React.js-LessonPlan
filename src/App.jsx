@@ -12,7 +12,7 @@ export default function App() {
     );
 
     const [taskCount] = useState(3);
-    const [completedCount] = useState(1);
+    const [completedCount, setCompletedCount] = useState(1);
     const [currentFocus] = useState("React Basics");
 
     const [previewTasks] = useState([
@@ -25,17 +25,35 @@ export default function App() {
         "Learning React by building one project step by step instead of isolated exercises."
     );
 
+    function completeTask() {
+        if (completedCount < taskCount) {
+            setCompletedCount(completedCount + 1);
+        }
+    }
+
+    function resetProgress() {
+        setCompletedCount(0);
+    }
+
     return (
         <div>
             <Header title={dashboardTitle} message={dashboardMessage} />
 
             <main>
                 <WelcomeSection />
+
                 <StatsSection
                     taskCount={taskCount}
                     completedCount={completedCount}
                     focus={currentFocus}
                 />
+
+                <section>
+                    <h2>Progress Controls</h2>
+                    <button onClick={completeTask}>Complete a Task</button>
+                    <button onClick={resetProgress}>Reset Progress</button>
+                </section>
+
                 <TaskPreview tasks={previewTasks} />
                 <ProfileCard learningNote={profileNote} />
             </main>
