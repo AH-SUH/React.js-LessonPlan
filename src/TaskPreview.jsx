@@ -1,3 +1,4 @@
+// Renders the task list and allows each task to be toggled complete/incomplete
 export default function TaskPreview({ tasks, toggleTaskComplete }) {
     return (
         <section>

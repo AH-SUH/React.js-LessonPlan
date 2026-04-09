@@ -1,3 +1,4 @@
+// Displays task-related dashboard statistics passed in through props
 export default function StatsSection({ taskCount, completedCount, focus }) {
     return (
         <section>

@@ -1,3 +1,4 @@
+// Static welcome section shown on the dashboard home page
 export default function WelcomeSection() {
     return (
         <section>

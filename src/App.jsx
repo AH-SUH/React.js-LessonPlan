@@ -1,38 +1,49 @@
 import { useEffect, useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import Header from "./Header";
 import WelcomeSection from "./WelcomeSection";
 import StatsSection from "./StatsSection";
 import TaskPreview from "./TaskPreview";
 import ProfileCard from "./ProfileCard";
-import { Routes, Route, Link } from "react-router-dom";
 
+// Personal Dashboard App
+// This project is built step-by-step to apply React concepts lesson by lesson.
 export default function App() {
+    // Dashboard heading content
     const [dashboardTitle] = useState("Personal Dashboard");
     const [dashboardMessage] = useState(
         "This project will grow step by step as I learn React."
     );
 
+    // Task data stored as objects so each task can be tracked individually
     const [tasks, setTasks] = useState([
         { id: 1, title: "Finish React lesson review", completed: true },
         { id: 2, title: "Build dashboard layout", completed: false },
         { id: 3, title: "Prepare next commit", completed: false },
     ]);
 
+    // Current learning focus shown in the stats section
     const [currentFocus] = useState("React Basics");
+
+    // Controlled input value for the Add Task form
     const [newTask, setNewTask] = useState("");
 
+    // Profile text displayed on the Profile route
     const [profileNote] = useState(
         "Learning React by building one project step by step instead of isolated exercises."
     );
 
+    // Derived values calculated from task state
     const taskCount = tasks.length;
     const completedCount = tasks.filter((task) => task.completed).length;
 
+    // useEffect updates the browser tab title and logs task changes
     useEffect(() => {
         document.title = `Completed ${completedCount} of ${taskCount} tasks`;
         console.log("Task list updated:", tasks);
     }, [tasks, completedCount, taskCount]);
 
+    // Marks the first incomplete task as complete
     function completeTask() {
         const firstIncompleteTask = tasks.find((task) => !task.completed);
 
@@ -47,6 +58,7 @@ export default function App() {
         setTasks(updatedTasks);
     }
 
+    // Resets all tasks back to incomplete
     function resetProgress() {
         const resetTasks = tasks.map((task) => ({
             ...task,
@@ -56,10 +68,12 @@ export default function App() {
         setTasks(resetTasks);
     }
 
+    // Updates the form input as the user types
     function handleTaskChange(event) {
         setNewTask(event.target.value);
     }
 
+    // Adds a new task to the list when the form is submitted
     function addTask(event) {
         event.preventDefault();
 
@@ -77,6 +91,7 @@ export default function App() {
         setNewTask("");
     }
 
+    // Toggles one task between complete and incomplete
     function toggleTaskComplete(taskId) {
         const updatedTasks = tasks.map((task) =>
             task.id === taskId
@@ -89,15 +104,17 @@ export default function App() {
 
     return (
         <div>
+            {/* Shared app header */}
             <Header title={dashboardTitle} message={dashboardMessage} />
 
+            {/* Navigation links for client-side routing */}
             <nav>
-                <Link to="/">Dashboard</Link> |{" "}
-                <Link to="/tasks">Tasks</Link> |{" "}
+                <Link to="/">Dashboard</Link> | <Link to="/tasks">Tasks</Link> |{" "}
                 <Link to="/profile">Profile</Link>
             </nav>
 
             <Routes>
+                {/* Dashboard / home view */}
                 <Route
                     path="/"
                     element={
@@ -119,6 +136,7 @@ export default function App() {
                     }
                 />
 
+                {/* Tasks view */}
                 <Route
                     path="/tasks"
                     element={
@@ -144,6 +162,7 @@ export default function App() {
                     }
                 />
 
+                {/* Profile view */}
                 <Route
                     path="/profile"
                     element={
@@ -154,4 +173,5 @@ export default function App() {
                 />
             </Routes>
         </div>
-    ); }
+    );
+}

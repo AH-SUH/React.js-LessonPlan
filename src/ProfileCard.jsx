@@ -1,3 +1,4 @@
+// Simple profile section used on the Profile route
 export default function ProfileCard({ learningNote }) {
     return (
         <section>
