@@ -4,6 +4,7 @@ import WelcomeSection from "./WelcomeSection";
 import StatsSection from "./StatsSection";
 import TaskPreview from "./TaskPreview";
 import ProfileCard from "./ProfileCard";
+import { Routes, Route, Link } from "react-router-dom";
 
 export default function App() {
     const [dashboardTitle] = useState("Personal Dashboard");
@@ -90,41 +91,67 @@ export default function App() {
         <div>
             <Header title={dashboardTitle} message={dashboardMessage} />
 
-            <main>
-                <WelcomeSection />
+            <nav>
+                <Link to="/">Dashboard</Link> |{" "}
+                <Link to="/tasks">Tasks</Link> |{" "}
+                <Link to="/profile">Profile</Link>
+            </nav>
 
-                <StatsSection
-                    taskCount={taskCount}
-                    completedCount={completedCount}
-                    focus={currentFocus}
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <main>
+                            <WelcomeSection />
+
+                            <StatsSection
+                                taskCount={taskCount}
+                                completedCount={completedCount}
+                                focus={currentFocus}
+                            />
+
+                            <section>
+                                <h2>Progress Controls</h2>
+                                <button onClick={completeTask}>Complete a Task</button>
+                                <button onClick={resetProgress}>Reset Progress</button>
+                            </section>
+                        </main>
+                    }
                 />
 
-                <section>
-                    <h2>Progress Controls</h2>
-                    <button onClick={completeTask}>Complete a Task</button>
-                    <button onClick={resetProgress}>Reset Progress</button>
-                </section>
+                <Route
+                    path="/tasks"
+                    element={
+                        <main>
+                            <section>
+                                <h2>Add a New Task</h2>
+                                <form onSubmit={addTask}>
+                                    <input
+                                        type="text"
+                                        value={newTask}
+                                        onChange={handleTaskChange}
+                                        placeholder="Enter a new task"
+                                    />
+                                    <button type="submit">Add Task</button>
+                                </form>
+                            </section>
 
-                <section>
-                    <h2>Add a New Task</h2>
-                    <form onSubmit={addTask}>
-                        <input
-                            type="text"
-                            value={newTask}
-                            onChange={handleTaskChange}
-                            placeholder="Enter a new task"
-                        />
-                        <button type="submit">Add Task</button>
-                    </form>
-                </section>
-
-                <TaskPreview
-                    tasks={tasks}
-                    toggleTaskComplete={toggleTaskComplete}
+                            <TaskPreview
+                                tasks={tasks}
+                                toggleTaskComplete={toggleTaskComplete}
+                            />
+                        </main>
+                    }
                 />
 
-                <ProfileCard learningNote={profileNote} />
-            </main>
+                <Route
+                    path="/profile"
+                    element={
+                        <main>
+                            <ProfileCard learningNote={profileNote} />
+                        </main>
+                    }
+                />
+            </Routes>
         </div>
-    );
-}
+    ); }
